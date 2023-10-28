@@ -19,6 +19,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name= "id_user")
     private Long idUser;
+
     private String name;
 
     private Integer age;

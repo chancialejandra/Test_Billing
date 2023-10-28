@@ -1,12 +1,36 @@
 package com.test.technique.Billing.services;
 
-public class UserService {
+import com.test.technique.Billing.models.User;
+import com.test.technique.Billing.services.interfaces.IUserService;
+import org.springframework.stereotype.Service;
 
-    public boolean createUser(){
-        return true;
+import java.util.List;
+@Service
+public class UserService implements IUserService {
+
+
+    @Override
+    public boolean createUser() {
+        return false;
     }
 
-    public boolean editUser(){
-        return true;
+    @Override
+    public boolean editUser() {
+        return false;
+    }
+
+    @Override
+    public User findUser() {
+        return null;
+    }
+
+    @Override
+    public List<User> findAll() {
+        return null;
+    }
+
+    @Override
+    public boolean deleteUser(Long idUser) {
+        return false;
     }
 }
