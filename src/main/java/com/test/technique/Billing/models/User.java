@@ -20,6 +20,8 @@ public class User {
     @Column(name= "id_user")
     private Long idUser;
 
+    private String dni;
+
     private String name;
 
     private Integer age;
