@@ -61,20 +61,4 @@ public class UserService implements IUserService {
         return responseMessage;
     }
 
-
-
-    @Override
-    public User findUser() {
-        return null;
-    }
-
-    @Override
-    public List<User> findAllUser() {
-        return iUserRepository.findAll();
-    }
-
-    @Override
-    public boolean deleteUser(Long idUser) {
-        return false;
-    }
 }

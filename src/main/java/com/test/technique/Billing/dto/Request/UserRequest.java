@@ -9,7 +9,6 @@ import lombok.Data;
 @Builder
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class UserRequest {
-
     private String dni;
     private String name;
     private Integer age;

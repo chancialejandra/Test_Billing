@@ -15,7 +15,6 @@ import lombok.NoArgsConstructor;
 public class Bill {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-
     @Column(name = "id_bill")
     private Long idBill;
     @Column(name = "total_amount")
