@@ -19,15 +19,10 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name= "id_user")
     private Long idUser;
-
     private String dni;
-
     private String name;
-
     private Integer age;
-
     private String email;
-
     @OneToMany(mappedBy = "user",fetch = FetchType.EAGER,cascade = {CascadeType.ALL})
     private List<Bill> bills;
 }

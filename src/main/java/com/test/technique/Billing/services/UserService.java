@@ -29,6 +29,11 @@ public class UserService implements IUserService {
         }
 
     @Override
+    public User searchUserByDni(String dni) {
+        return iUserRepository.searchUserByDni(dni);
+    }
+
+    @Override
     public MessageResponse createUser(UserRequest userRequest) {
         User user = mapper.map(userRequest,User.class);
         MessageResponse responseMessage;
@@ -57,10 +62,6 @@ public class UserService implements IUserService {
     }
 
 
-    @Override
-    public boolean editUser() {
-        return false;
-    }
 
     @Override
     public User findUser() {
@@ -68,8 +69,8 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public List<User> findAll() {
-        return null;
+    public List<User> findAllUser() {
+        return iUserRepository.findAll();
     }
 
     @Override

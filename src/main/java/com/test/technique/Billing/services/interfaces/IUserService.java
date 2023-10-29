@@ -9,9 +9,9 @@ import java.util.List;
 public interface IUserService {
 
     boolean findByDni(String dni);
+    User searchUserByDni(String dni);
     MessageResponse createUser(UserRequest user);
-    boolean editUser();
     User findUser();
-    List<User> findAll();
+    List<User> findAllUser();
     boolean deleteUser(Long idUser);
 }

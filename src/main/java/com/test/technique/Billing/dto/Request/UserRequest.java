@@ -11,11 +11,8 @@ import lombok.Data;
 public class UserRequest {
 
     private String dni;
-
     private String name;
-
     private Integer age;
-
     private String email;
 
 }
