@@ -28,7 +28,6 @@ public class BillService implements IBillService {
 
     @Override
     public MessageResponse createBill(BillRequest billRequest) {
-        Bill bill = mapper.map(billRequest,Bill.class);
         MessageResponse responseMessage;
 
         try {
