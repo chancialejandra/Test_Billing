@@ -5,14 +5,16 @@ import com.test.technique.Billing.models.Bill;
 import com.test.technique.Billing.models.User;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 public class BillMapper {
 
-    public static Bill mapBill(BillRequest billRequest, User user){
+    public static Bill mapBill(BillRequest billRequest, Optional<User> user){
         Bill billMapper = new Bill();
         billMapper.setTotalAmount(billRequest.getTotalAmount());
         billMapper.setDes(billRequest.getDes());
-        billMapper.setUser(user);
+       // billMapper.setUser(user);
         return billMapper;
     }
 }

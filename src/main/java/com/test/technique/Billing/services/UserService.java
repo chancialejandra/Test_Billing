@@ -13,6 +13,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -31,15 +32,15 @@ public class UserService implements IUserService {
 
     @Override
     public boolean existUser(String dni) {
-        if(iUserRepository.findByDni(dni).isPresent()){
+        if(iUserRepository.findUserByDni(dni).isPresent()){
             return true;
         }
         return false;
         }
 
     @Override
-    public User searchUserByDni(String dni) {
-        return iUserRepository.searchUserByDni(dni);
+    public Optional<User> searchUserByDni(String dni) {
+        return iUserRepository.findUserByDni(dni);
     }
 
     @Override
@@ -80,16 +81,14 @@ public class UserService implements IUserService {
                         .message("User does not exist")
                         .build();
             } else {
-                Optional<User> user= iUserRepository.findByDni(dni);
-                Bill UserBills = iBillRepository.searchBillByUser(user.get());
+                Optional<User> user= iUserRepository.findUserByDni(dni);
+                List<Bill> UserBills = iBillRepository.findAllByUser(user.get());
 
                 var  bills = BillsMapper.mapBills(UserBills, user);
                 return UserAndBillResponse.builder()
                         .message("Bills")
-                        .userName(bills.getUser().getName())
-                        .IdBill(bills.getIdBill())
-                        .totalAmount(bills.getTotalAmount())
-                        .des(bills.getDes())
+                        .userName(bills.userName)
+                        .bills(bills.bills)
                         .build();
             }
         } catch (Exception ex) {
