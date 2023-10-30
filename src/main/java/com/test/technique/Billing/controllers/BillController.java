@@ -25,7 +25,4 @@ public class BillController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    public ResponseEntity<?> findBillsByUser(){
-        return ResponseEntity.status(HttpStatus.OK).body();
-    }
 }

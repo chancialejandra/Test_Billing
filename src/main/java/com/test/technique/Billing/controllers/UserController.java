@@ -4,10 +4,7 @@ import com.test.technique.Billing.dto.Request.UserRequest;
 import com.test.technique.Billing.services.interfaces.IUserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("billing/user")
@@ -23,4 +20,11 @@ public class UserController {
         var response = userService.createUser(user);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
+
+    @GetMapping("/{dni}")
+    public ResponseEntity<?> findAllBills(@RequestParam @PathVariable String dni){
+        var response = userService.findAllByDni(dni);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
 }
