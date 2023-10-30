@@ -4,22 +4,26 @@ import com.test.technique.Billing.dto.Request.UserRequest;
 import com.test.technique.Billing.dto.Response.MessageResponse;
 import com.test.technique.Billing.dto.Response.UserAndBillResponse;
 import com.test.technique.Billing.mapper.BillsMapper;
-import com.test.technique.Billing.models.Bill;
 import com.test.technique.Billing.models.User;
 import com.test.technique.Billing.repositorys.IUserRepository;
+import com.test.technique.Billing.services.interfaces.IBillService;
 import com.test.technique.Billing.services.interfaces.IUserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UserService implements IUserService {
 
     private final IUserRepository iUserRepository;
+    private final IBillService billService;
     ModelMapper mapper = new ModelMapper();
 
-    public UserService(IUserRepository iUserRepository) {
+    public UserService(IUserRepository iUserRepository, IBillService billService) {
         this.iUserRepository = iUserRepository;
+        this.billService = billService;
     }
 
     @Override
@@ -73,9 +77,10 @@ public class UserService implements IUserService {
                         .message("User does not exist")
                         .build();
             } else {
-                var userBills = iUserRepository.findAllByDni(dni);
+                Optional<User> user= iUserRepository.findByDni(dni);
+                var UserBills = billService.findAllByUser(user.get().getIdUser());
 
-                Bill bills = BillsMapper.mapBills(userBills);
+                var  bills = BillsMapper.mapBills(UserBills, user);
                 return UserAndBillResponse.builder()
                         .message("Bills")
                         .userName(bills.getUser().getName())

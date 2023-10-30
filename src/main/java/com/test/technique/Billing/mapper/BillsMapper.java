@@ -5,9 +5,11 @@ import com.test.technique.Billing.models.Bill;
 import com.test.technique.Billing.models.User;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 public class BillsMapper {
-    public static Bill mapBills(Bill bill){
+    public static Bill mapBills(Bill bill, Optional<User> user){
         Bill billsMapper = new Bill();
         billsMapper.setUser(bill.getUser());
         billsMapper.setIdBill(bill.getIdBill());
