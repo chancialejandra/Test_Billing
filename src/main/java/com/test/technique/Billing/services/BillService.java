@@ -2,10 +2,9 @@ package com.test.technique.Billing.services;
 
 import com.test.technique.Billing.dto.Request.BillRequest;
 import com.test.technique.Billing.dto.Response.MessageResponse;
-import com.test.technique.Billing.dto.Response.UserAndBillResponse;
 import com.test.technique.Billing.mapper.BillMapper;
-import com.test.technique.Billing.mapper.BillsMapper;
 import com.test.technique.Billing.models.Bill;
+import com.test.technique.Billing.models.User;
 import com.test.technique.Billing.repositorys.IBillRepository;
 import com.test.technique.Billing.services.interfaces.IBillService;
 import com.test.technique.Billing.services.interfaces.IUserService;
@@ -13,7 +12,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 
 @Service
 public class BillService implements IBillService {
@@ -32,7 +30,7 @@ public class BillService implements IBillService {
         MessageResponse responseMessage;
 
         try {
-            if(!userService.findByDni(billRequest.getUserDni())) {
+            if(!userService.existUser(billRequest.getUserDni())) {
                 return MessageResponse.builder()
                         .message("User does not exist")
                         .status(HttpStatus.BAD_REQUEST)
@@ -55,10 +53,8 @@ public class BillService implements IBillService {
         return responseMessage;
     }
 
-    @Override
-    public Bill findAllByUser(Long idUser) {
-        return iBillRepository.findAllBillByUser(idUser);
-    }
+
+
 
     @Override
     public boolean editBill() {

@@ -4,11 +4,11 @@ import com.test.technique.Billing.dto.Request.BillRequest;
 import com.test.technique.Billing.dto.Response.MessageResponse;
 import com.test.technique.Billing.dto.Response.UserAndBillResponse;
 import com.test.technique.Billing.models.Bill;
+import com.test.technique.Billing.models.User;
 
 public interface IBillService {
 
     MessageResponse createBill(BillRequest billRequest);
-    Bill findAllByUser(Long idUser);
     boolean editBill();
     boolean deleteBill();
 }
