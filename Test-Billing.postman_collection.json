@@ -1,0 +1,88 @@
+{
+	"info": {
+		"_postman_id": "f8d885d8-aa9f-46b3-b64e-3d7b31e6c879",
+		"name": "Test-Billing",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "save-user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"dni\": \"1001398338\",\r\n\"name\": \"alejandra\",\r\n\"age\": 22,\r\n\"email\": \"alejandra.chancit@gmail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/billing/user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"billing",
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "save-bill",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"totalAmount\": 15,\r\n\"des\": \"funciona\",\r\n\"userDni\": \"1001398338\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/billing/bill",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"billing",
+						"bill"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "findAll-Bills",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/billing/user/1001398338",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"billing",
+						"user",
+						"1001398338"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
