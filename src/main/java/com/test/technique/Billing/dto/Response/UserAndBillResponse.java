@@ -2,6 +2,7 @@ package com.test.technique.Billing.dto.Response;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import com.test.technique.Billing.dto.BillDto;
 import com.test.technique.Billing.models.Bill;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,7 +18,7 @@ public class UserAndBillResponse {
 
     public String message;
     public String userName;
-    public List<Bill> bills;
+    public List<BillDto> bills;
 
 
 }

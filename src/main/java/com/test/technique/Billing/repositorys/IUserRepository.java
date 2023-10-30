@@ -9,8 +9,7 @@ import java.util.Optional;
 @Repository
 public interface IUserRepository extends JpaRepository<User,Long> {
 
-    Optional<User> findByDni(String dni);
-    User searchUserByDni(String dni);
+    Optional<User> findUserByDni(String dni);
 
 }
 

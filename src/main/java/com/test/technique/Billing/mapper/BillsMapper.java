@@ -1,5 +1,6 @@
 package com.test.technique.Billing.mapper;
 
+import com.test.technique.Billing.dto.BillDto;
 import com.test.technique.Billing.dto.Request.BillRequest;
 import com.test.technique.Billing.dto.Response.UserAndBillResponse;
 import com.test.technique.Billing.models.Bill;
@@ -12,22 +13,23 @@ import java.util.Optional;
 
 @Component
 public class BillsMapper {
-    public static UserAndBillResponse mapBills(List<Bill> bill, User user){
-        List<Bill> listBills = getListBills(bill);
+    public static UserAndBillResponse mapBills(List<Bill> bill, Optional<User> user){
+        List<BillDto> listBills = getListBills(bill);
          return UserAndBillResponse.builder()
-                .userName(user.getName())
+                //.userName(user.getName())
                 .bills(listBills)
                 .build();
     }
 
-    public static List<Bill> getListBills(List<Bill> bills){
-        List<Bill> listBill = new ArrayList<>();
+    public static List<BillDto> getListBills(List<Bill> bills){
+        List<BillDto> listBill = new ArrayList<>();
 
-        bills.stream().forEach(x ->{
-                Bill bill = new Bill();
-                bill.setIdBill(bill.getIdBill());
-                bill.setTotalAmount(bill.getTotalAmount());
-                bill.setDes(bill.getDes());
+        bills.stream().forEach(billModel ->{
+            BillDto billDto = new BillDto();
+                billDto.idBill = billModel.getIdBill();
+
+
+
         });
         return listBill;
     }
