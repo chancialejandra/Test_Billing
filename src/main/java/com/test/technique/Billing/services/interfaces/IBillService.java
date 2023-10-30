@@ -7,7 +7,6 @@ import com.test.technique.Billing.dto.Response.UserAndBillResponse;
 public interface IBillService {
 
     MessageResponse createBill(BillRequest billRequest);
-    UserAndBillResponse findAllBillsByUser(String dni);
     boolean editBill();
     boolean deleteBill();
 }
