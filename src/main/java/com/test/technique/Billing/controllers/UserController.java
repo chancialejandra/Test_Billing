@@ -22,7 +22,7 @@ public class UserController {
     }
 
     @GetMapping("/{dni}")
-    public ResponseEntity<?> findAllBills(@RequestParam @PathVariable String dni){
+    public ResponseEntity<?> findAllBills(@PathVariable String dni){
         var response = userService.findAllByDni(dni);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }

@@ -5,8 +5,10 @@ import com.test.technique.Billing.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface IBillRepository extends JpaRepository<Bill, Long> {
 
-    Bill searchBillByUser(User user);
+    List<Bill> searchBillByUser(User user);
 }

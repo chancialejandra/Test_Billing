@@ -3,8 +3,12 @@ package com.test.technique.Billing.dto.Response;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.test.technique.Billing.models.Bill;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
 @Builder
@@ -13,8 +17,7 @@ public class UserAndBillResponse {
 
     public String message;
     public String userName;
-    public Long IdBill;
-    public double totalAmount;
-    public String des;
+    public List<Bill> bills;
+
 
 }
