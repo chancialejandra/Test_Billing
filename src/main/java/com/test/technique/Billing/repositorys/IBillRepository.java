@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface IBillRepository extends JpaRepository<Bill, Long> {
 
-    Bill findBillByUser(String dni);
+    Bill findAllBillByUser(Long idUser);
 }

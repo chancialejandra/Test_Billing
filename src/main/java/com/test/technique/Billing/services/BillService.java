@@ -56,6 +56,11 @@ public class BillService implements IBillService {
     }
 
     @Override
+    public Bill findAllByUser(Long idUser) {
+        return iBillRepository.findAllBillByUser(idUser);
+    }
+
+    @Override
     public boolean editBill() {
         return false;
     }
