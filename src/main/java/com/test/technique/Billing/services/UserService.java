@@ -4,9 +4,10 @@ import com.test.technique.Billing.dto.Request.UserRequest;
 import com.test.technique.Billing.dto.Response.MessageResponse;
 import com.test.technique.Billing.dto.Response.UserAndBillResponse;
 import com.test.technique.Billing.mapper.BillsMapper;
+import com.test.technique.Billing.models.Bill;
 import com.test.technique.Billing.models.User;
+import com.test.technique.Billing.repositorys.IBillRepository;
 import com.test.technique.Billing.repositorys.IUserRepository;
-import com.test.technique.Billing.services.interfaces.IBillService;
 import com.test.technique.Billing.services.interfaces.IUserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -18,16 +19,18 @@ import java.util.Optional;
 public class UserService implements IUserService {
 
     private final IUserRepository iUserRepository;
-    private final IBillService billService;
+    private final IBillRepository iBillRepository;
+
     ModelMapper mapper = new ModelMapper();
 
-    public UserService(IUserRepository iUserRepository, IBillService billService) {
+    public UserService(IUserRepository iUserRepository, IBillRepository iBillRepository) {
         this.iUserRepository = iUserRepository;
-        this.billService = billService;
+
+        this.iBillRepository = iBillRepository;
     }
 
     @Override
-    public boolean findByDni(String dni) {
+    public boolean existUser(String dni) {
         if(iUserRepository.findByDni(dni).isPresent()){
             return true;
         }
@@ -45,7 +48,7 @@ public class UserService implements IUserService {
         MessageResponse responseMessage;
 
         try {
-            if(!findByDni(userRequest.getDni())){
+            if(!existUser(userRequest.getDni())){
                 iUserRepository.save(user);
                 responseMessage = MessageResponse.builder()
                         .message("Successful registration")
@@ -72,13 +75,13 @@ public class UserService implements IUserService {
         UserAndBillResponse response;
 
         try {
-            if (!findByDni(dni)){
+            if (!existUser(dni)){
                 return UserAndBillResponse.builder()
                         .message("User does not exist")
                         .build();
             } else {
                 Optional<User> user= iUserRepository.findByDni(dni);
-                var UserBills = billService.findAllByUser(user.get().getIdUser());
+                Bill UserBills = iBillRepository.searchBillByUser(user.get());
 
                 var  bills = BillsMapper.mapBills(UserBills, user);
                 return UserAndBillResponse.builder()
@@ -95,7 +98,7 @@ public class UserService implements IUserService {
                     .build();
 
         }
-        return response;
+        return  response ;
     }
 
 }

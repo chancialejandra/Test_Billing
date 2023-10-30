@@ -10,8 +10,9 @@ import java.util.Optional;
 @Component
 public class BillsMapper {
     public static Bill mapBills(Bill bill, Optional<User> user){
+
         Bill billsMapper = new Bill();
-        billsMapper.setUser(bill.getUser());
+        billsMapper.setUser(user.get());
         billsMapper.setIdBill(bill.getIdBill());
         billsMapper.setTotalAmount(bill.getTotalAmount());
         billsMapper.setDes(bill.getDes());

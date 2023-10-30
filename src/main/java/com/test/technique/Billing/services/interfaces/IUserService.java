@@ -9,7 +9,7 @@ import com.test.technique.Billing.models.User;
 
 public interface IUserService {
 
-    boolean findByDni(String dni);
+    boolean existUser(String dni);
     User searchUserByDni(String dni);
     UserAndBillResponse findAllByDni(String dni);
     MessageResponse createUser(UserRequest user);
