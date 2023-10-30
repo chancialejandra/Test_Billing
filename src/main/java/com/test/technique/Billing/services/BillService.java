@@ -56,37 +56,6 @@ public class BillService implements IBillService {
     }
 
     @Override
-    public UserAndBillResponse findAllBillsByUser(String dni) {
-        UserAndBillResponse response;
-
-        try {
-            if (!userService.findByDni(dni)) {
-                return UserAndBillResponse.builder()
-                        .message("User does not exist")
-                        .build();
-            } else {
-                var userBills = iBillRepository.findBillByUser(dni);
-
-                Bill bills = BillsMapper.mapBills(userBills);
-                return UserAndBillResponse.builder()
-                        .message("Bills")
-                        .userName(bills.getUser().getName())
-                        .IdBill(bills.getIdBill())
-                        .totalAmount(bills.getTotalAmount())
-                        .des(bills.getDes())
-                        .build();
-            }
-        } catch (Exception ex) {
-            response =UserAndBillResponse.builder()
-                    .message("invoice error")
-                    .build();
-
-        }
-        return response;
-    }
-
-
-    @Override
     public boolean editBill() {
         return false;
     }
