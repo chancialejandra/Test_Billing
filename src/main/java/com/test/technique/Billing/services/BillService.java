@@ -2,9 +2,10 @@ package com.test.technique.Billing.services;
 
 import com.test.technique.Billing.dto.Request.BillRequest;
 import com.test.technique.Billing.dto.Response.MessageResponse;
+import com.test.technique.Billing.dto.Response.UserAndBillResponse;
 import com.test.technique.Billing.mapper.BillMapper;
+import com.test.technique.Billing.mapper.BillsMapper;
 import com.test.technique.Billing.models.Bill;
-import com.test.technique.Billing.models.User;
 import com.test.technique.Billing.repositorys.IBillRepository;
 import com.test.technique.Billing.services.interfaces.IBillService;
 import com.test.technique.Billing.services.interfaces.IUserService;
@@ -53,6 +54,37 @@ public class BillService implements IBillService {
         }
         return responseMessage;
     }
+
+    @Override
+    public UserAndBillResponse findAllBillsByUser(String dni) {
+        UserAndBillResponse response;
+
+        try {
+            if (!userService.findByDni(dni)) {
+                return UserAndBillResponse.builder()
+                        .message("User does not exist")
+                        .build();
+            } else {
+                var userBills = iBillRepository.findBillByUser(dni);
+
+                Bill bills = BillsMapper.mapBills(userBills);
+                return UserAndBillResponse.builder()
+                        .message("Bills")
+                        .userName(bills.getUser().getName())
+                        .IdBill(bills.getIdBill())
+                        .totalAmount(bills.getTotalAmount())
+                        .des(bills.getDes())
+                        .build();
+            }
+        } catch (Exception ex) {
+            response =UserAndBillResponse.builder()
+                    .message("invoice error")
+                    .build();
+
+        }
+        return response;
+    }
+
 
     @Override
     public boolean editBill() {
