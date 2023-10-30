@@ -24,4 +24,8 @@ public class BillController {
         var response = billService.createBill(bill);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
+
+    public ResponseEntity<?> findBillsByUser(){
+        return ResponseEntity.status(HttpStatus.OK).body();
+    }
 }
