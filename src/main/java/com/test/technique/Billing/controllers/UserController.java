@@ -1,5 +1,6 @@
 package com.test.technique.Billing.controllers;
 
+import com.test.technique.Billing.dto.Request.BillRequest;
 import com.test.technique.Billing.dto.Request.UserRequest;
 import com.test.technique.Billing.dto.Response.UserResponse;
 import com.test.technique.Billing.services.interfaces.IUserService;
@@ -33,6 +34,23 @@ public class UserController {
         }
 
         return ResponseEntity.status(HttpStatus.OK).body(userResponse);
+    }
+
+    @PatchMapping("/{dni}/bill/{billId}")
+    public ResponseEntity<?> editBillByUser(@PathVariable String dni,
+                                          @PathVariable Long billId,
+                                          @RequestBody BillRequest bill) {
+        var response = userService.editBillByUser(dni, billId, bill);
+
+        return ResponseEntity.status(response.status).body(response.message);
+    }
+
+    @DeleteMapping("/{dni}/bill/{billId}")
+    public ResponseEntity<?> deleteBillByUser(@PathVariable String dni,
+                                            @PathVariable Long billId)
+    {
+        var response = userService.deleteBillByUser(dni, billId);
+        return ResponseEntity.status(response.status).body(response.message);
     }
 
 }

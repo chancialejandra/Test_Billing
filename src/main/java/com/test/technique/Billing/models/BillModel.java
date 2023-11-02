@@ -5,9 +5,6 @@ import lombok.*;
 
 @Getter
 @Setter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "`bill`")
 public class BillModel {

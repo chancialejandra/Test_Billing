@@ -7,9 +7,6 @@ import java.util.List;
 
 @Getter
 @Setter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "`user`")
 public class UserModel {
@@ -22,5 +19,5 @@ public class UserModel {
     private Integer age;
     private String email;
     @OneToMany(mappedBy = "user",fetch = FetchType.EAGER,cascade = {CascadeType.ALL})
-    private List<BillModel> billModels;
+    private List<BillModel> bills;
 }

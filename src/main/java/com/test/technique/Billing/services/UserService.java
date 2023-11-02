@@ -34,7 +34,7 @@ public class UserService implements IUserService {
         MessageResponse responseMessage = MessageResponse.builder().build();
 
         try {
-            if(iUserRepository.findUserByDni(userModel.getDni()).isPresent()){
+            if(!iUserRepository.findUserByDni(userModel.getDni()).isPresent()){
                 iUserRepository.save(userModel);
                 responseMessage = MessageResponse.builder()
                         .message("Successful registration")
@@ -94,7 +94,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public MessageResponse deleteBill(String dni, Long billId) {
+    public MessageResponse deleteBillByUser(String dni, Long billId) {
         var userModel = iUserRepository.findUserByDni(dni);
         MessageResponse messageResponse = MessageResponse.builder().build();
 
@@ -130,13 +130,13 @@ public class UserService implements IUserService {
 
     @Override
     public UserResponse getUser(String dni) {
-        UserResponse responseUser = UserResponse.builder().build();
         var userModel = iUserRepository.findUserByDni(dni);
 
         if (iUserRepository.findUserByDni(dni).isEmpty()) {
-            return responseUser;
+            return new UserResponse();
         }
-        return mapper.map(userModel.get(), UserResponse.class);
+        var response = mapper.map(userModel.get(), UserResponse.class);
+        return response;
     }
 
 

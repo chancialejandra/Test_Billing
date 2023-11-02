@@ -28,7 +28,7 @@ public class BillService implements IBillService {
         MessageResponse responseMessage = MessageResponse.builder().build();
 
         try {
-            if(!userService.searchUserByDni(billRequest.getUserDni()).isEmpty()){
+            if(userService.searchUserByDni(billRequest.getUserDni()).isEmpty()){
                 return MessageResponse.builder()
                         .message("User does not exist")
                         .status(HttpStatus.BAD_REQUEST)

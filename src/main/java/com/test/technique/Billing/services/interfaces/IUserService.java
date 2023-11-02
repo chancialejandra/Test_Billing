@@ -13,7 +13,7 @@ public interface IUserService {
 
     MessageResponse createUser(UserRequest user);
     MessageResponse editBillByUser(String dni, Long billId, BillRequest billRequest);
-    MessageResponse deleteBill(String dni, Long billId);
+    MessageResponse deleteBillByUser(String dni, Long billId);
     Optional<UserModel>  searchUserByDni(String dni);
     UserResponse getUser(String dni);
 

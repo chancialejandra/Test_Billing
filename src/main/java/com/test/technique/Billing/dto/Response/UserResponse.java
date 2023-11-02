@@ -8,7 +8,6 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-@Builder
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class UserResponse {
 
