@@ -1,20 +1,15 @@
 package com.test.technique.Billing.models;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "`user`")
-public class User {
+public class UserModel {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name= "id_user")
@@ -24,5 +19,5 @@ public class User {
     private Integer age;
     private String email;
     @OneToMany(mappedBy = "user",fetch = FetchType.EAGER,cascade = {CascadeType.ALL})
-    private List<Bill> bills;
+    private List<BillModel> bills;
 }

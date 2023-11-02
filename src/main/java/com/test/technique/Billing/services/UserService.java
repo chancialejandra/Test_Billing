@@ -1,19 +1,17 @@
 package com.test.technique.Billing.services;
 
+import com.test.technique.Billing.dto.Request.BillRequest;
 import com.test.technique.Billing.dto.Request.UserRequest;
 import com.test.technique.Billing.dto.Response.MessageResponse;
-import com.test.technique.Billing.dto.Response.UserAndBillResponse;
-import com.test.technique.Billing.mapper.BillsMapper;
-import com.test.technique.Billing.models.Bill;
-import com.test.technique.Billing.models.User;
+import com.test.technique.Billing.dto.Response.UserResponse;
+import com.test.technique.Billing.models.BillModel;
+import com.test.technique.Billing.models.UserModel;
 import com.test.technique.Billing.repositorys.IBillRepository;
 import com.test.technique.Billing.repositorys.IUserRepository;
 import com.test.technique.Billing.services.interfaces.IUserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -22,7 +20,7 @@ public class UserService implements IUserService {
     private final IUserRepository iUserRepository;
     private final IBillRepository iBillRepository;
 
-    ModelMapper mapper = new ModelMapper();
+    private ModelMapper mapper = new ModelMapper();
 
     public UserService(IUserRepository iUserRepository, IBillRepository iBillRepository) {
         this.iUserRepository = iUserRepository;
@@ -31,26 +29,13 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public boolean existUser(String dni) {
-        if(iUserRepository.findUserByDni(dni).isPresent()){
-            return true;
-        }
-        return false;
-        }
-
-    @Override
-    public Optional<User> searchUserByDni(String dni) {
-        return iUserRepository.findUserByDni(dni);
-    }
-
-    @Override
     public MessageResponse createUser(UserRequest userRequest) {
-        User user = mapper.map(userRequest,User.class);
-        MessageResponse responseMessage;
+        UserModel userModel = mapper.map(userRequest, UserModel.class);
+        MessageResponse responseMessage = MessageResponse.builder().build();
 
         try {
-            if(!existUser(userRequest.getDni())){
-                iUserRepository.save(user);
+            if(!iUserRepository.findUserByDni(userModel.getDni()).isPresent()){
+                iUserRepository.save(userModel);
                 responseMessage = MessageResponse.builder()
                         .message("Successful registration")
                         .status(HttpStatus.OK)
@@ -64,7 +49,7 @@ public class UserService implements IUserService {
             }
         }catch(Exception ex){
             responseMessage = MessageResponse.builder()
-                    .message("Error creating user")
+                    .message("error saving in database")
                     .status(HttpStatus.OK)
                     .build();
         }
@@ -72,32 +57,87 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public UserAndBillResponse findAllByDni(String dni) {
-        UserAndBillResponse response;
+    public MessageResponse editBillByUser(String dni, Long billId, BillRequest billRequest) {
+        MessageResponse responseMessage = MessageResponse.builder().build();
 
-        try {
-            if (!existUser(dni)){
-                return UserAndBillResponse.builder()
-                        .message("User does not exist")
-                        .build();
-            } else {
-                Optional<User> user= iUserRepository.findUserByDni(dni);
-                List<Bill> UserBills = iBillRepository.findAllByUser(user.get());
+        try{
+            if (iUserRepository.findUserByDni(dni).isPresent()){
+                var billValidation = iBillRepository.findById(billId);
+                if (billValidation.isPresent()) {
+                    BillModel oldBill = billValidation.get();
 
-                var  bills = BillsMapper.mapBills(UserBills, user);
-                return UserAndBillResponse.builder()
-                        .message("Bills")
-                        .userName(bills.userName)
-                        .bills(bills.bills)
+                    oldBill.setTotalAmount(billRequest.getTotalAmount());
+                    oldBill.setDesc(billRequest.getDesc());
+                    iBillRepository.save(oldBill);
+                    return MessageResponse.builder()
+                            .message("Bill Updated successfully")
+                            .status(HttpStatus.OK)
+                            .build();
+                }else{
+                    return MessageResponse.builder()
+                            .message("Bill doesn't exist")
+                            .status(HttpStatus.BAD_REQUEST)
+                            .build();
+                }
+            }
+            return MessageResponse.builder()
+                    .message("User doesn't exist")
+                    .status(HttpStatus.BAD_REQUEST)
+                    .build();
+        }catch(Exception ex){
+            MessageResponse.builder()
+                    .message("error saving in database")
+                    .status(HttpStatus.OK)
+                    .build();
+        }
+        return responseMessage;
+    }
+
+    @Override
+    public MessageResponse deleteBillByUser(String dni, Long billId) {
+        var userModel = iUserRepository.findUserByDni(dni);
+        MessageResponse messageResponse = MessageResponse.builder().build();
+
+            if (userModel.isPresent()) {
+                var billValidation = iBillRepository.findById(billId);
+
+                if (billValidation.isPresent()) {
+                    BillModel oldBill = billValidation.get();
+                    iBillRepository.delete(oldBill);
+                    return MessageResponse.builder()
+                            .message("Bill Deleted successfully")
+                            .status(HttpStatus.OK)
+                            .build();
+                }
+                return MessageResponse.builder()
+                        .message("Bill doesn't exist")
+                        .status(HttpStatus.BAD_REQUEST)
                         .build();
             }
-        } catch (Exception ex) {
-            response =UserAndBillResponse.builder()
-                    .message("invoice error")
-                    .build();
 
-        }
-        return  response ;
+
+        return MessageResponse.builder()
+                .message("User doesn't exist")
+                .status(HttpStatus.BAD_REQUEST)
+                .build();
     }
+
+    @Override
+    public Optional<UserModel> searchUserByDni(String dni) {
+        return iUserRepository.findUserByDni(dni);
+    }
+
+
+    @Override
+    public UserResponse getUser(String dni) {
+        var userModel = iUserRepository.findUserByDni(dni);
+
+        if (iUserRepository.findUserByDni(dni).isEmpty()) {
+            return new UserResponse();
+        }
+        var response = mapper.map(userModel.get(), UserResponse.class);
+        return response;
+    }
+
 
 }
