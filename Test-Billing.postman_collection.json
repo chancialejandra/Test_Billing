@@ -1,8 +1,9 @@
 {
 	"info": {
-		"_postman_id": "f8d885d8-aa9f-46b3-b64e-3d7b31e6c879",
+		"_postman_id": "7d07cb7f-35a0-4cd8-96fc-4bc2c5600110",
 		"name": "Test-Billing",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24085915"
 	},
 	"item": [
 		{
@@ -64,7 +65,7 @@
 			"response": []
 		},
 		{
-			"name": "findAll-Bills",
+			"name": "get-bills",
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -79,6 +80,61 @@
 						"billing",
 						"user",
 						"1001398338"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete-bill",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/billing/user/1001398338/bill/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"billing",
+						"user",
+						"1001398338",
+						"bill",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "edit-bill",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"totalAmount\": 500,\n\"desc\": \"Mangos\"\n\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/billing/user/1001398338/bill/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"billing",
+						"user",
+						"1001398338",
+						"bill",
+						"1"
 					]
 				}
 			},
