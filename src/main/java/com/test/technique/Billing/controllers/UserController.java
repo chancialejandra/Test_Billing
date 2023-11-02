@@ -4,6 +4,7 @@ import com.test.technique.Billing.dto.Request.BillRequest;
 import com.test.technique.Billing.dto.Request.UserRequest;
 import com.test.technique.Billing.dto.Response.UserResponse;
 import com.test.technique.Billing.services.interfaces.IUserService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,7 @@ public class UserController {
         this.userService = userService;
     }
     @PostMapping
-    public ResponseEntity<?> createUser(@RequestBody UserRequest user){
+    public ResponseEntity<?> createUser(@Valid @RequestBody UserRequest user){
         var response = userService.createUser(user);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
