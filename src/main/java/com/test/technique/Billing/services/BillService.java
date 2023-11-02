@@ -3,8 +3,7 @@ package com.test.technique.Billing.services;
 import com.test.technique.Billing.dto.Request.BillRequest;
 import com.test.technique.Billing.dto.Response.MessageResponse;
 import com.test.technique.Billing.mapper.BillMapper;
-import com.test.technique.Billing.models.Bill;
-import com.test.technique.Billing.models.User;
+import com.test.technique.Billing.models.BillModel;
 import com.test.technique.Billing.repositorys.IBillRepository;
 import com.test.technique.Billing.services.interfaces.IBillService;
 import com.test.technique.Billing.services.interfaces.IUserService;
@@ -16,7 +15,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class BillService implements IBillService {
 
-    ModelMapper mapper = new ModelMapper();
     private final IUserService userService;
     private final IBillRepository iBillRepository;
 
@@ -27,7 +25,7 @@ public class BillService implements IBillService {
 
     @Override
     public MessageResponse createBill(BillRequest billRequest) {
-        MessageResponse responseMessage;
+        MessageResponse responseMessage = MessageResponse.builder().build();
 
         try {
             if(!userService.existUser(billRequest.getUserDni())) {
@@ -37,8 +35,8 @@ public class BillService implements IBillService {
                         .build();
             }else{
                 var UserBill = userService.searchUserByDni(billRequest.getUserDni());
-                Bill bills = BillMapper.mapBill(billRequest,UserBill);
-                iBillRepository.save(bills);
+               // BillModel bills = BillMapper.mapBill(billRequest,UserBill);
+               // iBillRepository.save(bills);
                 return MessageResponse.builder()
                     .message("invoice created successfully")
                     .status(HttpStatus.OK)

@@ -2,10 +2,10 @@ package com.test.technique.Billing.services;
 
 import com.test.technique.Billing.dto.Request.UserRequest;
 import com.test.technique.Billing.dto.Response.MessageResponse;
-import com.test.technique.Billing.dto.Response.UserAndBillResponse;
+import com.test.technique.Billing.dto.Response.UserResponse;
 import com.test.technique.Billing.mapper.BillsMapper;
-import com.test.technique.Billing.models.Bill;
-import com.test.technique.Billing.models.User;
+import com.test.technique.Billing.models.BillModel;
+import com.test.technique.Billing.models.UserModel;
 import com.test.technique.Billing.repositorys.IBillRepository;
 import com.test.technique.Billing.repositorys.IUserRepository;
 import com.test.technique.Billing.services.interfaces.IUserService;
@@ -22,7 +22,7 @@ public class UserService implements IUserService {
     private final IUserRepository iUserRepository;
     private final IBillRepository iBillRepository;
 
-    ModelMapper mapper = new ModelMapper();
+    private ModelMapper mapper = new ModelMapper();
 
     public UserService(IUserRepository iUserRepository, IBillRepository iBillRepository) {
         this.iUserRepository = iUserRepository;
@@ -39,18 +39,29 @@ public class UserService implements IUserService {
         }
 
     @Override
-    public Optional<User> searchUserByDni(String dni) {
+    public Optional<UserModel> searchUserByDni(String dni) {
         return iUserRepository.findUserByDni(dni);
     }
 
     @Override
+    public UserResponse getUser(String dni) {
+        var userModel = iUserRepository.findUserByDni(dni);
+
+        if (userModel.isEmpty()) {
+            return null;
+        }
+
+        return mapper.map(userModel.get(), UserResponse.class);
+    }
+
+    @Override
     public MessageResponse createUser(UserRequest userRequest) {
-        User user = mapper.map(userRequest,User.class);
+        UserModel userModel = mapper.map(userRequest, UserModel.class);
         MessageResponse responseMessage;
 
         try {
             if(!existUser(userRequest.getDni())){
-                iUserRepository.save(user);
+                iUserRepository.save(userModel);
                 responseMessage = MessageResponse.builder()
                         .message("Successful registration")
                         .status(HttpStatus.OK)
@@ -72,28 +83,28 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public UserAndBillResponse findAllByDni(String dni) {
-        UserAndBillResponse response;
+    public UserResponse findAllByDni(String dni) {
+        UserResponse response;
 
         try {
             if (!existUser(dni)){
-                return UserAndBillResponse.builder()
-                        .message("User does not exist")
+                return UserResponse.builder()
+                      //  .message("User does not exist")
                         .build();
             } else {
-                Optional<User> user= iUserRepository.findUserByDni(dni);
-                List<Bill> UserBills = iBillRepository.findAllByUser(user.get());
+                Optional<UserModel> user= iUserRepository.findUserByDni(dni);
+                List<BillModel> userBillModels = iBillRepository.findAllByUser(user.get());
 
-                var  bills = BillsMapper.mapBills(UserBills, user);
-                return UserAndBillResponse.builder()
-                        .message("Bills")
-                        .userName(bills.userName)
+                var  bills = BillsMapper.mapBills(userBillModels, user);
+                return UserResponse.builder()
+                       // .message("Bills")
+                       // .userName(bills.userName)
                         .bills(bills.bills)
                         .build();
             }
         } catch (Exception ex) {
-            response =UserAndBillResponse.builder()
-                    .message("invoice error")
+            response = UserResponse.builder()
+                   // .message("invoice error")
                     .build();
 
         }

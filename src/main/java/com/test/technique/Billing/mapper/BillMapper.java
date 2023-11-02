@@ -1,20 +1,18 @@
 package com.test.technique.Billing.mapper;
 
 import com.test.technique.Billing.dto.Request.BillRequest;
-import com.test.technique.Billing.models.Bill;
-import com.test.technique.Billing.models.User;
+import com.test.technique.Billing.models.BillModel;
+import com.test.technique.Billing.models.UserModel;
 import org.springframework.stereotype.Component;
-
-import java.util.Optional;
 
 @Component
 public class BillMapper {
 
-    public static Bill mapBill(BillRequest billRequest, Optional<User> user){
-        Bill billMapper = new Bill();
+    public static BillModel mapBill(BillRequest billRequest, UserModel user){
+        BillModel billMapper = new BillModel();
         billMapper.setTotalAmount(billRequest.getTotalAmount());
-        billMapper.setDes(billRequest.getDes());
-       // billMapper.setUser(user);
+        billMapper.setDesc(billRequest.getDesc());
+        billMapper.setUser(user);
         return billMapper;
     }
 }

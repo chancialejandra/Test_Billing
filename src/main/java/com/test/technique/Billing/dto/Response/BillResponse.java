@@ -1,4 +1,4 @@
-package com.test.technique.Billing.dto.Request;
+package com.test.technique.Billing.dto.Response;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
@@ -8,8 +8,10 @@ import lombok.Data;
 @Data
 @Builder
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class BillRequest {
-    private double totalAmount;
-    private String desc;
-    private String userDni;
+public class BillResponse {
+
+    public  Long idBill;
+    public  double totalAmount;
+    public String desc;
+
 }
