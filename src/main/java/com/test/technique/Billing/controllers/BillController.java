@@ -2,6 +2,7 @@ package com.test.technique.Billing.controllers;
 
 import com.test.technique.Billing.dto.Request.BillRequest;
 import com.test.technique.Billing.services.interfaces.IBillService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,7 +21,7 @@ public class BillController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createBill(@RequestBody BillRequest bill){
+    public ResponseEntity<?> createBill(@Valid  @RequestBody BillRequest bill){
         var response = billService.createBill(bill);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
