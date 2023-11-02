@@ -28,19 +28,19 @@ public class BillService implements IBillService {
         MessageResponse responseMessage = MessageResponse.builder().build();
 
         try {
-            if(!userService.existUser(billRequest.getUserDni())) {
+            if(!userService.searchUserByDni(billRequest.getUserDni()).isEmpty()){
                 return MessageResponse.builder()
                         .message("User does not exist")
                         .status(HttpStatus.BAD_REQUEST)
                         .build();
             }else{
                 var UserBill = userService.searchUserByDni(billRequest.getUserDni());
-               // BillModel bills = BillMapper.mapBill(billRequest,UserBill);
-               // iBillRepository.save(bills);
+                BillModel billModel = BillMapper.mapBill(billRequest, UserBill.get());
+                iBillRepository.save(billModel);
                 return MessageResponse.builder()
-                    .message("invoice created successfully")
-                    .status(HttpStatus.OK)
-                    .build();
+                        .message("Bill created successfully")
+                        .status(HttpStatus.OK)
+                        .build();
             }
         }catch(Exception ex){
             responseMessage = MessageResponse.builder()
@@ -50,19 +50,5 @@ public class BillService implements IBillService {
         }
         return responseMessage;
     }
-
-
-
-
-    @Override
-    public boolean editBill() {
-        return false;
-    }
-
-    @Override
-    public boolean deleteBill() {
-        return false;
-    }
-
 
 }
